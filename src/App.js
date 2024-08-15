@@ -15,7 +15,7 @@ const App = () => {
         {
           index:true,
           element: <HomePage />
-
+            
         },
         {
           path: 'about-page',

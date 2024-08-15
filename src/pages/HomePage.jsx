@@ -1,5 +1,8 @@
 import React from 'react'
 import DisplaySection from './Home/DisplaySection '
+import Icon from './Home/Icon'
+import Info from './Home/Info'
+
 
 const HomePage = () => {
   return (
@@ -29,8 +32,11 @@ const HomePage = () => {
         <div className="h-10 w-10 bg-orange-700"></div>
       
       </div> */
-    
-      <DisplaySection /> 
+    <div >
+      <DisplaySection />
+      <Icon />
+      <Info />
+      </div>
  
        )
 }
