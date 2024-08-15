@@ -2,8 +2,8 @@ import React from 'react'
 
 const AboutPage = () => {
   return (
-    <div className='h-full flex '>
-      <div className='grow'>
+    
+      <div >
       <h1>THis is About Page</h1>
       <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Laboriosam impedit, saepe quas magnam quibusdam corrupti  </p>
       <p>Certainly! Here’s a more detailed summary of Apple Inc.:
@@ -44,7 +44,7 @@ Remember, this is just a glimpse of Apple’s rich history and influence. For mo
       
   
 
-    </div>
+ 
   )
 }
 
