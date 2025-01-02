@@ -1,35 +1,42 @@
-
-import { RouterProvider, createBrowserRouter } from 'react-router-dom'
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import HomePage from './pages/HomePage';
-import AboutPage from './pages/AboutPage';
-import ContactPage from './pages/ContactPage';
 import RootLayout from './components/RootLayout';
+import All from './pages/All';
+import MergPage from './pages/MergPage';
+
 
 const App = () => {
-
   const router = createBrowserRouter([
     {
       path: '/',
       element: <RootLayout />,
-      children :[
+      children: [
         {
-          index:true,
-          element: <HomePage />
-            
+          index: true,
+          element: <HomePage />,
         },
         {
-          path: 'about-page',
-          element: <AboutPage />
+          path: 'html-page',
+          element: <HomePage />,
         },
         {
-          path: 'contact-page',
-          element: <ContactPage />
-        }
-      ]
+          path: "/html-page/css-page",
+          element: <HomePage />,
+        },
+        {
+          path: "/all-page",
+          element: <All />,
+        },
+        {
+          path: "/Merg-page",
+          element: <MergPage />
+        },
+
+      ],
     },
-  
   ]);
-  return <RouterProvider router={router} />
+
+  return <RouterProvider router={router} />;
 }
 
-export default App
+export default App;
