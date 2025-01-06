@@ -11,7 +11,7 @@ function RootLayout() {
         <Outlet />
       </main>
 
-      <Footer />
+      {/* <Footer /> */}
 
     </div>
   )

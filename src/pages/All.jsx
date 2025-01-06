@@ -30,8 +30,8 @@ const All = () => {
   }, [location.search]);
 
   return (
-    <div>
-      <div className="flex">
+    <div className=''>
+      <div className="grid grid-cols-3">
         {clickedHtml && (
           <div className="bg-red-500 p-8 m-4 w-[400px]">
             <HtmlInput htmlCode={htmlCode} setHtmlCode={setHtmlCode} />

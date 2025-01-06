@@ -22,8 +22,11 @@ const Output = ({ htmlCode, cssCode, jsCode, setConsoleOutput }) => {
       <style >${cssCode}</style>
     </head>
     <body>
+      <div > 
       ${htmlCode}
+      </div>
       <script>
+        
         (function() {
           const originalLog = console.log;
           const logs = [];

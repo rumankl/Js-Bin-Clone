@@ -11,6 +11,7 @@ const CodeEditor = () => {
     body {
       font-family: Arial, sans-serif;
       padding: 20px;
+  
     }
    
     #message {
@@ -25,7 +26,7 @@ const CodeEditor = () => {
   return (
     <div style={{ padding: "20px" }}>
       <h1>Interactive Code Editor</h1>
-      <div style={{ display: "flex", gap: "20px" }}>
+      <div style={{ display: "flex ", gap: "20px" }}>
         <HtmlInput htmlCode={htmlCode} setHtmlCode={setHtmlCode} />
         <CssInput cssCode={cssCode} setCssCode={setCssCode} />
         <JsInput jsCode={jsCode} setJsCode={setJsCode} />
