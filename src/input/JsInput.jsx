@@ -27,7 +27,7 @@ const JsInput = ({ jsCode, setJsCode }) => {
 
   const handleScroll = (e) => {
     // Sync the scroll of the line numbers container with the textarea
-    const lineNumberContainer = document.getElementById("line-numbers");
+    const lineNumberContainer = document.getElementById("line-numbers-js");
     lineNumberContainer.scrollTop = e.target.scrollTop;
   };
 
@@ -35,7 +35,7 @@ const JsInput = ({ jsCode, setJsCode }) => {
     <div style={{ position: "relative", display: "flex", height: "300px" }}>
       {/* Line Numbers Section */}
       <div
-        id="line-numbers"
+        id="line-numbers-js"
         style={{
           position: "absolute",
           top: 0,
