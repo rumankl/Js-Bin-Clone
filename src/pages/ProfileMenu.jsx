@@ -8,7 +8,7 @@ import {
 } from "@material-tailwind/react";
 import { ChevronDownIcon } from "@heroicons/react/24/solid";
 import React, { useState } from "react";
-import { useNavigate } from "react-router";
+// import { useNavigate } from "react-router";
 import { saveAs } from "file-saver";
 // import ReactDOMServer from "react-dom/server";
 // import HtmlInput from "../input/HtmlInput";
@@ -21,18 +21,23 @@ const userMenuItems = [
 ];
 
 const ProfileMenu = () => {
-  const nav = useNavigate();
+  // const nav = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const closeMenu = () => setIsMenuOpen(false);
   const menus = userMenuItems;
+  const refreshPage = () => {
+    window.location.reload();
+
+  }
 
   const handleMenuItemClick = (value) => {
     switch (value) {
       case "new":
-        nav("/"); // Navigate to new route
+        refreshPage();
+        // nav("/?html"); // Navigate to new route
         break;
       case "saveHtml":
-        const htmlContent = document.getElementById("htmlInput").value; const htmlBlob = new Blob([htmlContent], { type: "text/html;charset=utf-8" }); saveAs(htmlBlob, "index.txt");
+        const htmlContent = document.getElementById("htmlInput").value; const htmlBlob = new Blob([htmlContent], { type: "text/html;charset=utf-8" }); saveAs(htmlBlob, "index.txt,");
         // const htmlContent = ReactDOMServer.renderToString(<HtmlInput />);
         // const blob = new Blob([htmlContent], { type: "text/html;charset=utf-8" });
         // saveAs(blob, "index.html");
