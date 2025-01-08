@@ -68,6 +68,7 @@ const CssInput = ({ cssCode, setCssCode }) => {
       {/* Textarea Section */}
       <textarea
         className="resize-none monospace w-[300px] h-[300px] "
+        id="cssInput"
         value={cssCode}
         onChange={handleInputChange}
         onClick={handleCursorPosition}

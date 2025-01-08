@@ -68,6 +68,7 @@ const JsInput = ({ jsCode, setJsCode }) => {
       {/* Textarea Section */}
       <textarea
         className="resize-none monospace w-[300px] h-[300px] "
+        id="jsInput"
         value={jsCode}
         onChange={handleInputChange}
         onClick={handleCursorPosition}

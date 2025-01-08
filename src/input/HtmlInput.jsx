@@ -1,9 +1,9 @@
 
 import React, { useState } from "react";
-
 const HtmlInput = ({ htmlCode, setHtmlCode }) => {
   const [lineNumbers, setLineNumbers] = useState(["1"]);
   const [currentLine, setCurrentLine] = useState(0);
+
 
   const updateLineNumbers = (text) => {
     const lines = text.split("\n").length;
@@ -69,6 +69,7 @@ const HtmlInput = ({ htmlCode, setHtmlCode }) => {
       {/* Textarea Section */}
       <textarea
         className="resize-none monospace w-[300px] h-[300px] "
+        id="htmlInput"
         value={htmlCode}
         onChange={handleInputChange}
         onClick={handleCursorPosition}
@@ -90,6 +91,7 @@ const HtmlInput = ({ htmlCode, setHtmlCode }) => {
 
         }}
       />
+
     </div>
   );
 };
@@ -100,12 +102,22 @@ export default HtmlInput;
 //const squares = Array.from({ length: 10 }, (_, i) => (i + 1) * (i + 1));
 //console.log(squares); // Output: [1, 4, 9, 16, 25, 36, 49, 64, 81, 100]
 
+// import { Button } from "@material-tailwind/react";
 // import React from "react";
+// import ReactDOMServer from "react-dom/server";
+// import { saveAs } from "file-saver";
 
 // const HtmlInput = ({ htmlCode, setHtmlCode }) => {
+//   const saveHtmlFile = () => {
+//     // const htmlContent = ReactDOMServer.renderToString();
+//     const blob = new Blob([htmlCode], { type: "text/html;charset=utf-8" });
+//     saveAs(blob, "index.txt");
+
+//   };
 //   return (
 //     <div>
 //       <h3>HTML</h3>
+//       <Button onClick={saveHtmlFile}>Save HTML</Button>
 //       <textarea
 //         className="resize-none monospace  w-[300px] h-[300px]"
 //         value={htmlCode}
