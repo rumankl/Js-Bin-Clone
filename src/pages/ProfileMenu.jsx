@@ -18,6 +18,7 @@ const userMenuItems = [
   { label: "Save html", value: "saveHtml" },
   { label: "save css", value: "saveCss" },
   { label: "save js", value: "saveJs" },
+  { label: "save all", value: "saveAll" },
 ];
 
 const ProfileMenu = () => {
@@ -37,7 +38,7 @@ const ProfileMenu = () => {
         // nav("/?html"); // Navigate to new route
         break;
       case "saveHtml":
-        const htmlContent = document.getElementById("htmlInput").value; const htmlBlob = new Blob([htmlContent], { type: "text/html;charset=utf-8" }); saveAs(htmlBlob, "index.txt,");
+        const htmlContent = document.getElementById("htmlInput").value; const htmlBlob = new Blob([htmlContent], { type: "text/html;charset=utf-8" }); saveAs(htmlBlob, "index.txt");
         // const htmlContent = ReactDOMServer.renderToString(<HtmlInput />);
         // const blob = new Blob([htmlContent], { type: "text/html;charset=utf-8" });
         // saveAs(blob, "index.html");
@@ -45,10 +46,25 @@ const ProfileMenu = () => {
       case "saveCss": const cssContent = document.getElementById("cssInput").value;
         const cssBlob = new Blob([cssContent], { type: "text/css;charset=utf-8" });
         saveAs(cssBlob, "style.css");
+
         break;
-        ; case "saveJs": const jsContent = document.getElementById("jsInput").value;
+      case "saveJs": const jsContent = document.getElementById("jsInput").value;
         const jsBlob = new Blob([jsContent], { type: "application/javascript;charset=utf-8" });
-        saveAs(jsBlob, "script.js"); break
+        saveAs(jsBlob, "script.js");
+        break;
+      case "saveAll": const jsaContent = document.getElementById("jsInput").value;
+        const htmlaContent = document.getElementById("htmlInput").value;
+        const cssaContent = document.getElementById("cssInput").value;
+
+        const jsaBlob = new Blob([jsaContent], { type: "application/javascript;charset=utf-8" });
+        const htmlaBlob = new Blob([htmlaContent], { type: "text/html;charset=utf-8" });
+        const cssaBlob = new Blob([cssaContent], { type: "text/css;charset=utf-8" });
+
+        saveAs(jsaBlob, "script.js");
+        saveAs(htmlaBlob, "index.html");
+        saveAs(cssaBlob, "style.css");
+
+        break;
 
       default:
         break;
@@ -88,7 +104,7 @@ const ProfileMenu = () => {
                 as="span"
                 variant="small"
                 className="font-normal"
-                color={isLastItem ? "red" : "inherit"}
+                color={isLastItem ? "orange" : "inherit"}
               >
                 {label}
               </Typography>

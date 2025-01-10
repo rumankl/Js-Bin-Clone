@@ -33,7 +33,7 @@ const HtmlInput = ({ htmlCode, setHtmlCode }) => {
   };
 
   return (
-    <div style={{ position: "relative", display: "flex", height: "300px" }}>
+    <div style={{ position: "relative", display: "flex", }}>
       {/* Line Numbers Section */}
       <div
         id="line-numbers"
@@ -47,10 +47,14 @@ const HtmlInput = ({ htmlCode, setHtmlCode }) => {
           textAlign: "right",
           paddingRight: "5px",
           fontFamily: "monospace",
+          fontSize: "16px", // Match font size with textarea
+          lineHeight: "1.5", // Match line height with textarea
+
           borderRight: "1px solid #ccc",
           pointerEvents: "none", // Prevent interaction with the line numbers
           overflowY: "hidden", // Hide the scrollbar for the line numbers
-          height: "100%", // Ensures that the container matches the height of the textarea
+          height: "560px",
+          // Ensures that the container matches the height of the textarea
         }}
       >
         {lineNumbers.map((number, index) => (
@@ -59,6 +63,7 @@ const HtmlInput = ({ htmlCode, setHtmlCode }) => {
             style={{
               backgroundColor: currentLine === index ? "#d0e7ff" : "#f0f0f0",
               padding: "2px 0",
+              height: "1.5em", // Ensure alignment with textarea line height
             }}
           >
             {number}
@@ -68,7 +73,7 @@ const HtmlInput = ({ htmlCode, setHtmlCode }) => {
 
       {/* Textarea Section */}
       <textarea
-        className="resize-none monospace w-[300px] h-[300px] "
+        className="resize-none monospace w-[300px] h-[300px]  "
         id="htmlInput"
         value={htmlCode}
         onChange={handleInputChange}
@@ -76,16 +81,19 @@ const HtmlInput = ({ htmlCode, setHtmlCode }) => {
         onKeyUp={handleCursorPosition}
         onKeyDown={handleCursorPosition}
         onScroll={handleScroll} // Sync the scrolling here
-        placeholder="Write HTML code here..."
+        placeholder=" Write HTML code here..."
         style={{
           flex: 1,
           fontFamily: "monospace",
           border: "none",
           outline: "none",
-          paddingLeft: "40px", // Offset the textarea to make space for line numbers
-          lineHeight: "1.8",
+          paddingLeft: "50px", // Offset the textarea to make space for line numbers
+
+          fontSize: "16px", // Match font size with line numbers
+          lineHeight: "1.5", // Match line height with line numbers
+
           overflowY: "auto", // Enable scrolling with visible scrollbar
-          height: "100%", // Ensures the textarea height matches
+          height: "560px", // Ensures the textarea height matches
 
 
 
@@ -130,5 +138,6 @@ export default HtmlInput;
 // };
 
 // export default HtmlInput;
+
 
 

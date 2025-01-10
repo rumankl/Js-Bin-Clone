@@ -29,31 +29,50 @@ const All = () => {
     setClickedConsole(params.has('console'));
   }, [location.search]);
 
+  const selectedCount = [clickedHtml, clickedCss, clickedJs, clickedOutput, clickedConsole].filter(Boolean).length;
+
+  //  const widthClass = selectedCount === 1 ? 'w-full' : 'w-1/2'
+  //  const widthClass = selectedCount === 1 ? 'w-full' : 'w-1/2';
+  
+    const widthClass = selectedCount === 1 ? 'w-full':selectedCount === 2 ? 'w-1/2' : selectedCount === 3 ? ' w-1/3' : selectedCount === 4 ? ' w-1/4' : 'w-1/5';
+ 
+  
+
+
   return (
     <div className=''>
-      <div className="grid grid-cols-3">
+      <div className="flex ">
         {clickedHtml && (
-          <div className="bg-red-500 p-8 m-4 w-[400px]">
+          <div className={`border border-[#E34F26]   ${widthClass}`}>
+           
+             <h1 className='text-center bg-[#E34F26] text-white '>HTML</h1>
+          
             <HtmlInput htmlCode={htmlCode} setHtmlCode={setHtmlCode} />
           </div>
         )}
         {clickedCss && (
-          <div className="bg-green-500 p-8 m-4 w-[400px]">
+          <div className={`border border-[#1572B6]  ${widthClass}`}>
+            <h1 className='text-center bg-[#1572B6] text-white'>CSS</h1>
             <CssInput cssCode={cssCode} setCssCode={setCssCode} />
           </div>
         )}
         {clickedJs && (
-          <div className="bg-green-500 p-8 m-4 w-[400px]">
+          <div className={`border border-[#F7DF1E]  ${widthClass}`}>
+            <h1 className='text-center bg-[#F7DF1E]  text-white'>JavaScript</h1>
             <JsInput jsCode={jsCode} setJsCode={setJsCode} />
           </div>
         )}
+        {/* </div>
+        <div className="flex"> */}
         {clickedOutput && (
-          <div className="bg-green-500 p-8 m-4 w-[400px]">
+          <div className={`border border-gray-500 ${widthClass}`}>
+              <h1 className='text-center bg-gray-800  text-white'>OUTPUT</h1>
             <Output htmlCode={htmlCode} cssCode={cssCode} jsCode={jsCode} setConsoleOutput={setConsoleOutput} />
           </div>
         )}
         {clickedConsole && (
-          <div className="bg-green-500 p-8 m-4 w-[400px]">
+          <div className={`  border border-black bg-black ${widthClass}`}>
+              <h1 className='text-center bg-gray-800 text-white'>CONSOLE</h1>
             <ConsoleDisplay consoleOutput={consoleOutput} />
           </div>
         )}
@@ -63,6 +82,77 @@ const All = () => {
 };
 
 export default All;
+
+
+
+// import React, { useState, useEffect } from 'react';
+// import { useLocation } from 'react-router-dom';
+// import HtmlInput from '../input/HtmlInput';
+// import CssInput from '../input/CssInput';
+// import Output from '../input/Output';
+// import JsInput from '../input/JsInput';
+// import ConsoleDisplay from '../input/ConsoleDisplay';
+
+// const All = () => {
+//   const location = useLocation();
+//   const [htmlCode, setHtmlCode] = useState('');
+//   const [cssCode, setCssCode] = useState('');
+//   const [jsCode, setJsCode] = useState('');
+//   const [consoleOutput, setConsoleOutput] = useState('');
+
+//   const [clickedHtml, setClickedHtml] = useState(false);
+//   const [clickedCss, setClickedCss] = useState(false);
+//   const [clickedJs, setClickedJs] = useState(false);
+//   const [clickedOutput, setClickedOutput] = useState(false);
+//   const [clickedConsole, setClickedConsole] = useState(false);
+
+//   useEffect(() => {
+//     const params = new URLSearchParams(location.search);
+
+//     setClickedHtml(params.has('html'));
+//     setClickedCss(params.has('css'));
+//     setClickedJs(params.has('js'));
+//     setClickedOutput(params.has('output'));
+//     setClickedConsole(params.has('console'));
+//   }, [location.search]);
+  
+// const selectedCount = [clickedHtml, clickedCss, clickedJs, clickedOutput, clickedConsole].filter(Boolean).length; 
+// const widthClass = selectedCount === 1 ? 'w-full' : selectedCount === 2 ? 'w-1/2' : 'w-1/3';
+
+//   return (
+//     <div className=''>
+//       <div className="grid grid-cols-3  ">
+//         {clickedHtml && (
+//           <div className={`bg-red-500 p-8 m-4 ${widthClass}`}>    
+//           <HtmlInput htmlCode={htmlCode} setHtmlCode={setHtmlCode} />
+//           </div>
+//         )}
+//         {clickedCss && (
+//           <div className="bg-green-500 p-8 m-4 w-[400px]">
+//             <CssInput cssCode={cssCode} setCssCode={setCssCode} />
+//           </div>
+//         )}
+//         {clickedJs && (
+//           <div className="bg-green-500 p-8 m-4 w-[400px]">
+//             <JsInput jsCode={jsCode} setJsCode={setJsCode} />
+//           </div>
+//         )}
+//         {clickedOutput && (
+//           <div className="bg-green-500 p-8 m-4 w-[400px]">
+//             <Output htmlCode={htmlCode} cssCode={cssCode} jsCode={jsCode} setConsoleOutput={setConsoleOutput} />
+//           </div>
+//         )}
+//         {clickedConsole && (
+//           <div className="bg-green-500 p-8 m-4 w-[400px]">
+//             <ConsoleDisplay consoleOutput={consoleOutput} />
+//           </div>
+//         )}
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default All;
 
 
 // import React, { useState, useEffect } from 'react';

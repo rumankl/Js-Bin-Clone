@@ -26,7 +26,6 @@ const Output = ({ htmlCode, cssCode, jsCode, setConsoleOutput }) => {
       ${htmlCode}
       </div>
       <script>
-        
         (function() {
           const originalLog = console.log;
           const logs = [];
@@ -48,10 +47,11 @@ const Output = ({ htmlCode, cssCode, jsCode, setConsoleOutput }) => {
 
   return (
     <iframe
+
       title="Output"
       sandbox="allow-scripts"
       srcDoc={iframeContent}
-      style={{ width: "100%", height: "300px", border: "1px solid #ccc" }}
+      style={{ width: "100%", height: "560px", border: "1px solid #ccc", }}
     />
   );
 };
