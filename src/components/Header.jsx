@@ -63,7 +63,7 @@ const Header = () => {
         </span>
 
         {/* Blog Link */}
-        <nav className="space-x-4 bg-red-400 p-2 rounded-md">
+        <nav className="space-x-4 bg-green-400 p-2 rounded-md">
           <NavLink to="/blog-page">Blog</NavLink>
         </nav>
 
@@ -72,7 +72,7 @@ const Header = () => {
           {['html', 'css', 'js', 'output', 'console'].map((param) => (
             <button
               key={param}
-              className={`hover:bg-gray-500 text-white font-bold py-1 px-4 text-[15px]  ${isActive(param) ? 'text-gray-800 bg-white  hover:bg-white ' : ''
+              className={`hover:bg-gray-500 text-white font-bold py-1 px-4 text-[15px]  ${isActive(param) ? 'text-white bg-gray-900   hover:bg-gray-400 ' : ''
                 }`}
               onClick={() => toggleQueryParam(param)}
             >
