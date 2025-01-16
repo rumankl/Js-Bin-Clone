@@ -30,6 +30,57 @@ const JsInput = ({ jsCode, setJsCode }) => {
     const lineNumberContainer = document.getElementById("line-numbers-js");
     lineNumberContainer.scrollTop = e.target.scrollTop;
   };
+  // Toggle comments on selected text or current line
+  const handleKeyDown = (e) => {
+    if (e.ctrlKey && e.key === "/") {
+      e.preventDefault(); // Prevent default browser behavior
+      const textarea = e.target;
+      const selectionStart = textarea.selectionStart;
+      const selectionEnd = textarea.selectionEnd;
+
+      const lines = jsCode.split("\n");
+      const startLineIndex = jsCode.slice(0, selectionStart).split("\n").length - 1;
+      const endLineIndex = jsCode.slice(0, selectionEnd).split("\n").length - 1;
+
+      // Determine if selection spans multiple lines
+      const isMultiLine = startLineIndex !== endLineIndex;
+
+      if (isMultiLine) {
+        // Multi-line comment
+        const isCommented =
+          lines[startLineIndex].trim().startsWith("/*") &&
+          lines[endLineIndex].trim().endsWith("*/");
+
+        if (isCommented) {
+          // Remove multi-line comment
+          lines[startLineIndex] = lines[startLineIndex].replace("/*", "").trim();
+          lines[endLineIndex] = lines[endLineIndex].replace("*/", "").trim();
+        } else {
+          // Add multi-line comment
+          lines[startLineIndex] = `/* ${lines[startLineIndex]}`;
+          lines[endLineIndex] = `${lines[endLineIndex]} */`;
+        }
+      } else {
+        // Single-line comment
+        const line = lines[startLineIndex];
+        if (line.trim().startsWith("//")) {
+          // Remove single-line comment
+          lines[startLineIndex] = line.replace("//", "").trim();
+        } else {
+          // Add single-line comment
+          lines[startLineIndex] = `// ${line}`;
+        }
+      }
+
+      setJsCode(lines.join("\n"));
+
+      // Restore focus and selection
+      setTimeout(() => {
+        textarea.focus();
+        textarea.setSelectionRange(selectionStart, selectionEnd);
+      }, 0);
+    }
+  };
 
   return (
     <div style={{ position: "relative", display: "flex", height: "300px" }}>
@@ -77,7 +128,7 @@ const JsInput = ({ jsCode, setJsCode }) => {
         onChange={handleInputChange}
         onClick={handleCursorPosition}
         onKeyUp={handleCursorPosition}
-        onKeyDown={handleCursorPosition}
+        onKeyDown={handleKeyDown}
         onScroll={handleScroll} // Sync the scrolling here
         placeholder=" Write JavaScript code here..."
         style={{

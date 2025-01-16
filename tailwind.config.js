@@ -16,6 +16,7 @@ module.exports = withMT({
     },
 
 
+
     // colors: {
     //   'primary': '#C5705D'
     // },
@@ -30,4 +31,5 @@ module.exports = withMT({
     }
   },
   plugins: [],
+
 });

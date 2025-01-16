@@ -30,6 +30,39 @@ const CssInput = ({ cssCode, setCssCode }) => {
     const lineNumberContainer = document.getElementById("line-numbers-css");
     lineNumberContainer.scrollTop = e.target.scrollTop;
   };
+  const handleKeyDown = (e) => {
+    if (e.ctrlKey && e.key === "/") {
+      e.preventDefault(); // Prevent default browser behavior
+      const textarea = e.target;
+      const selectionStart = textarea.selectionStart;
+      const selectionEnd = textarea.selectionEnd;
+
+      const lines = cssCode.split("\n");
+      const startLineIndex = cssCode.slice(0, selectionStart).split("\n").length - 1;
+      const endLineIndex = cssCode.slice(0, selectionEnd).split("\n").length - 1;
+
+      // Check if already commented
+      const isCommented = lines[startLineIndex].trim().startsWith("/*") && lines[endLineIndex].trim().endsWith("*/");
+
+      if (isCommented) {
+        // Remove comments
+        lines[startLineIndex] = lines[startLineIndex].replace("/*", "").trim();
+        lines[endLineIndex] = lines[endLineIndex].replace("*/", "").trim();
+      } else {
+        // Add comments
+        lines[startLineIndex] = `/* ${lines[startLineIndex]}`;
+        lines[endLineIndex] = `${lines[endLineIndex]} */`;
+      }
+
+      setCssCode(lines.join("\n"));
+
+      // Restore focus and selection
+      setTimeout(() => {
+        textarea.focus();
+        textarea.setSelectionRange(selectionStart, selectionEnd);
+      }, 0);
+    }
+  };
 
   return (
     <div style={{ position: "relative", display: "flex", height: "300px" }}>
@@ -77,7 +110,7 @@ const CssInput = ({ cssCode, setCssCode }) => {
         onChange={handleInputChange}
         onClick={handleCursorPosition}
         onKeyUp={handleCursorPosition}
-        onKeyDown={handleCursorPosition}
+        onKeyDown={handleKeyDown}
         onScroll={handleScroll} // Sync the scrolling here
         placeholder=" Write CSS code here..."
         style={{

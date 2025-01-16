@@ -1,39 +1,89 @@
 
+
 import React, { useState } from "react";
+
 const HtmlInput = ({ htmlCode, setHtmlCode }) => {
-  const [lineNumbers, setLineNumbers] = useState(["1"]);
   const [currentLine, setCurrentLine] = useState(0);
+  const [lineNumbers, setLineNumbers] = useState(["1"]);
 
-
+  // Update line numbers when the content changes
   const updateLineNumbers = (text) => {
     const lines = text.split("\n").length;
     setLineNumbers(Array.from({ length: lines }, (_, i) => (i + 1).toString()));
   };
 
+  // Handle text change and update line numbers
   const handleInputChange = (e) => {
     const newValue = e.target.value;
     setHtmlCode(newValue);
     updateLineNumbers(newValue);
-    updateCurrentLine(e.target.selectionStart, newValue);
-  };
-
-  const updateCurrentLine = (cursorPosition, text) => {
-    const lines = text.slice(0, cursorPosition).split("\n");
-    setCurrentLine(lines.length - 1);
   };
 
   const handleCursorPosition = (e) => {
-    updateCurrentLine(e.target.selectionStart, e.target.value);
+    const cursorPosition = e.target.selectionStart;
+    const lines = e.target.value.slice(0, cursorPosition).split("\n");
+    setCurrentLine(lines.length - 1);
   };
 
   const handleScroll = (e) => {
-    // Sync the scroll of the line numbers container with the textarea
     const lineNumberContainer = document.getElementById("line-numbers");
     lineNumberContainer.scrollTop = e.target.scrollTop;
   };
 
+  const handleKeyDown = (e) => {
+    if (e.ctrlKey && e.key === "/") {
+      e.preventDefault(); // Prevent default browser behavior
+      const textarea = e.target;
+      const selectionStart = textarea.selectionStart;
+      const selectionEnd = textarea.selectionEnd;
+
+      // const beforeSelection = htmlCode.slice(0, selectionStart);
+      const selectedText = htmlCode.slice(selectionStart, selectionEnd);
+      // const afterSelection = htmlCode.slice(selectionEnd);
+
+      const lines = htmlCode.split("\n");
+      const startLineIndex = htmlCode.slice(0, selectionStart).split("\n").length - 1;
+      const endLineIndex = htmlCode.slice(0, selectionEnd).split("\n").length - 1;
+
+      if (selectedText.trim() === "") {
+        // Single line: toggle comment
+        const lineToToggle = lines[startLineIndex];
+        if (lineToToggle.trim().startsWith("<!--") && lineToToggle.trim().endsWith("-->")) {
+          // Remove comment
+          lines[startLineIndex] = lineToToggle
+            .replace("<!--", "")
+            .replace("-->", "")
+            .trim();
+        } else {
+          // Add comment
+          lines[startLineIndex] = `<!-- ${lineToToggle} -->`;
+        }
+      } else {
+        // Multiline: toggle comment
+        const isCommented = lines[startLineIndex].trim().startsWith("<!--") && lines[endLineIndex].trim().endsWith("-->");
+        if (isCommented) {
+          // Remove comment
+          lines[startLineIndex] = lines[startLineIndex].replace("<!--", "").trim();
+          lines[endLineIndex] = lines[endLineIndex].replace("-->", "").trim();
+        } else {
+          // Add comment
+          lines[startLineIndex] = `<!-- ${lines[startLineIndex]}`;
+          lines[endLineIndex] = `${lines[endLineIndex]} -->`;
+        }
+      }
+
+      setHtmlCode(lines.join("\n"));
+
+      // Restore focus and selection range
+      setTimeout(() => {
+        textarea.focus();
+        textarea.setSelectionRange(selectionStart, selectionEnd);
+      }, 0);
+    }
+  };
+
   return (
-    <div style={{ position: "relative", display: "flex", }}>
+    <div style={{ position: "relative", display: "flex", height: "auto" }}>
       {/* Line Numbers Section */}
       <div
         id="line-numbers"
@@ -47,14 +97,12 @@ const HtmlInput = ({ htmlCode, setHtmlCode }) => {
           textAlign: "right",
           paddingRight: "5px",
           fontFamily: "monospace",
-          fontSize: "16px", // Match font size with textarea
-          lineHeight: "1.5", // Match line height with textarea
-
+          fontSize: "16px",
+          lineHeight: "1.5",
           borderRight: "1px solid #ccc",
-          pointerEvents: "none", // Prevent interaction with the line numbers
-          overflowY: "hidden", // Hide the scrollbar for the line numbers
-          height: "560px",
-          // Ensures that the container matches the height of the textarea
+          pointerEvents: "none",
+          overflowY: "hidden",
+          height: "550px",
         }}
       >
         {lineNumbers.map((number, index) => (
@@ -63,7 +111,7 @@ const HtmlInput = ({ htmlCode, setHtmlCode }) => {
             style={{
               backgroundColor: currentLine === index ? "#d0e7ff" : "#f0f0f0",
               padding: "2px 0",
-              height: "1.5em", // Ensure alignment with textarea line height
+              height: "1.5em",
             }}
           >
             {number}
@@ -73,33 +121,31 @@ const HtmlInput = ({ htmlCode, setHtmlCode }) => {
 
       {/* Textarea Section */}
       <textarea
-        className="resize-none monospace w-[300px] h-[300px]  "
         id="htmlInput"
         value={htmlCode}
         onChange={handleInputChange}
+        onKeyDown={handleKeyDown}
         onClick={handleCursorPosition}
         onKeyUp={handleCursorPosition}
-        onKeyDown={handleCursorPosition}
-        onScroll={handleScroll} // Sync the scrolling here
-        placeholder=" Write HTML code here..."
+        onScroll={handleScroll}
+        placeholder="Write HTML code here..."
         style={{
           flex: 1,
           fontFamily: "monospace",
           border: "none",
           outline: "none",
-          paddingLeft: "50px", // Offset the textarea to make space for line numbers
-
-          fontSize: "16px", // Match font size with line numbers
-          lineHeight: "1.5", // Match line height with line numbers
-
-          overflowY: "auto", // Enable scrolling with visible scrollbar
-          height: "560px", // Ensures the textarea height matches
-
-
-
+          marginLeft: "40px",
+          paddingLeft: "10px",
+          fontSize: "16px",
+          lineHeight: "1.5",
+          whiteSpace: "pre",
+          overflowX: "scroll",
+          overflowY: "auto",
+          height: "560px",
+          background: "white",
+          caretColor: "black",
         }}
       />
-
     </div>
   );
 };
@@ -107,37 +153,108 @@ const HtmlInput = ({ htmlCode, setHtmlCode }) => {
 export default HtmlInput;
 
 
-//const squares = Array.from({ length: 10 }, (_, i) => (i + 1) * (i + 1));
-//console.log(squares); // Output: [1, 4, 9, 16, 25, 36, 49, 64, 81, 100]
 
-// import { Button } from "@material-tailwind/react";
-// import React from "react";
-// import ReactDOMServer from "react-dom/server";
-// import { saveAs } from "file-saver";
+/////easy code /////-----
+// import React, { useState } from "react";
 
 // const HtmlInput = ({ htmlCode, setHtmlCode }) => {
-//   const saveHtmlFile = () => {
-//     // const htmlContent = ReactDOMServer.renderToString();
-//     const blob = new Blob([htmlCode], { type: "text/html;charset=utf-8" });
-//     saveAs(blob, "index.txt");
+//   const [lineNumbers, setLineNumbers] = useState(["1"]);
 
+//   // Update line numbers when the content changes
+//   const updateLineNumbers = (text) => {
+//     const lines = text.split("\n").length;
+//     setLineNumbers(Array.from({ length: lines }, (_, i) => (i + 1).toString()));
 //   };
-//   return (
-//     <div>
-//       <h3>HTML</h3>
-//       <Button onClick={saveHtmlFile}>Save HTML</Button>
-//       <textarea
-//         className="resize-none monospace  w-[300px] h-[300px]"
-//         value={htmlCode}
-//         onChange={(e) => setHtmlCode(e.target.value)}
-//         placeholder="Write HTML code here..."
 
+//   // Handle text change and update line numbers
+//   const handleInputChange = (e) => {
+//     const newValue = e.target.value;
+//     setHtmlCode(newValue);
+//     updateLineNumbers(newValue);
+//   };
+
+//   // Toggle comments on selected text or current line
+//   const handleKeyDown = (e) => {
+//     if (e.ctrlKey && e.key === "/") {
+//       e.preventDefault(); // Prevent default browser behavior
+//       const textarea = e.target;
+//       const selectionStart = textarea.selectionStart;
+//       const selectionEnd = textarea.selectionEnd;
+
+//       const lines = htmlCode.split("\n");
+//       const startLineIndex = htmlCode.slice(0, selectionStart).split("\n").length - 1;
+//       const endLineIndex = htmlCode.slice(0, selectionEnd).split("\n").length - 1;
+
+//       // Check if already commented
+//       const isCommented = lines[startLineIndex].trim().startsWith("<!--") && lines[endLineIndex].trim().endsWith("-->");
+
+//       if (isCommented) {
+//         // Remove comments
+//         lines[startLineIndex] = lines[startLineIndex].replace("<!--", "").trim();
+//         lines[endLineIndex] = lines[endLineIndex].replace("-->", "").trim();
+//       } else {
+//         // Add comments
+//         lines[startLineIndex] = `<!-- ${lines[startLineIndex]}`;
+//         lines[endLineIndex] = `${lines[endLineIndex]} -->`;
+//       }
+
+//       setHtmlCode(lines.join("\n"));
+
+//       // Restore focus and selection
+//       setTimeout(() => {
+//         textarea.focus();
+//         textarea.setSelectionRange(selectionStart, selectionEnd);
+//       }, 0);
+//     }
+//   };
+
+//   return (
+//     <div style={{ display: "flex", height: "auto", position: "relative" }}>
+//       {/* Line Numbers */}
+//       <div
+//         style={{
+//           position: "absolute",
+//           top: 0,
+//           left: 0,
+//           bottom: 0,
+//           width: "40px",
+//           backgroundColor: "#f9f9f9",
+//           textAlign: "right",
+//           paddingRight: "5px",
+//           fontFamily: "monospace",
+//           fontSize: "16px",
+//           lineHeight: "1.5",
+//           borderRight: "1px solid #ccc",
+//           pointerEvents: "none",
+//         }}
+//       >
+//         {lineNumbers.map((number, index) => (
+//           <div key={index} style={{ padding: "2px 0" }}>{number}</div>
+//         ))}
+//       </div>
+
+//       {/* Textarea */}
+//       <textarea
+//         value={htmlCode}
+//         onChange={handleInputChange}
+//         onKeyDown={handleKeyDown}
+//         placeholder="Write HTML code here..."
+//         style={{
+//           flex: 1,
+//           fontFamily: "monospace",
+//           marginLeft: "40px",
+//           padding: "10px",
+//           fontSize: "16px",
+//           lineHeight: "1.5",
+//           whiteSpace: "pre",
+//           overflow: "auto",
+//           height: "560px",
+//           border: "none",
+//           outline: "none",
+//         }}
 //       />
 //     </div>
 //   );
 // };
 
 // export default HtmlInput;
-
-
-
