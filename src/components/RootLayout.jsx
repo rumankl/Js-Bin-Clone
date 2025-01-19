@@ -3,6 +3,7 @@ import Header from './Header'
 import { Outlet } from 'react-router'
 import Footer from './Footer'
 
+
 function RootLayout() {
   return (
     <div className='flex flex-col min-h-screen' >
@@ -10,7 +11,6 @@ function RootLayout() {
       <main className="flex-grow">
         <Outlet />
       </main>
-
       {/* <Footer /> */}
 
     </div>
